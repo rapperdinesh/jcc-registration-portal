@@ -1,7 +1,11 @@
 from __future__ import unicode_literals
+from django.conf import settings
+from django.contrib import messages
 from django.shortcuts import render
 from .models import Team
 from .forms import RegistrationForm
+from django.core import mail
+from django.core.mail import send_mail
 from . import sms_service
 
 
