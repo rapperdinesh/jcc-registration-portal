@@ -43,7 +43,44 @@ def index(request):
                     team_name, unique_team_id, player_one_contact)
                 sms_service.send_message(
                     team_name, unique_team_id, player_two_contact)
+                 
+                ####To send confirmation email####
 
+                #subject = 'Successfull Registration '
+                #message = 'You have succesfully registered for JUNIOR CODECRACKER!!! BEST OF LUCK !!!'
+                #from_email = settings.DEFAULT_FROM_EMAIL
+                #to_list = ['player_one_email', 'player_two_email', settings.DEFAULT_FROM_EMAIL]
+                connection = mail.get_connection()
+
+                # Manually open the connection
+                connection.open()
+
+                # Construct an email message that uses the connection
+                email1 = mail.EmailMessage(
+                    'Successfull Registration in JCC',
+                    'Congratulations, You have succesfully registered for JUNIOR CODECRACKER!!! BEST OF LUCK',
+                    settings.DEFAULT_FROM_EMAIL,
+                    [player_one_email],
+                    connection=connection,
+                )
+                email1.send() # Send the email
+
+                # Construct two more messages
+                email2 = mail.EmailMessage(
+                    'Successfull Registration in JCC',
+                    'Congratulations, You have succesfully registered for JUNIOR CODECRACKER!!! BEST OF LUCK',
+                    settings.DEFAULT_FROM_EMAIL,
+                    [player_two_email],
+                )
+
+                # Send the two emails in a single call -
+                connection.send_messages([email2])
+                # The connection was already open so send_messages() doesn't close it.
+                # We need to manually close the connection.
+                connection.close()
+
+                #### EMAIL PART ENDS HERE ####
+                
                 return render(request, 'success.html', {'unique_team_id': unique_team_id})
 
             else:
