@@ -1,4 +1,4 @@
-rom django.conf.urls import url
+from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
 from core.views import Team_List
